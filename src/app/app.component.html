@@ -1,0 +1,100 @@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+        aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Pierre Besson</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+    </div>
+    <!--/.navbar-collapse -->
+  </div>
+</nav>
+<div class="jumbotron">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h1>{{title}}</h1>
+      </div>
+      <div class="col-md-12">
+        <form class="example-form">
+          <mat-form-field class="example-full-width">
+            <input matInput #input (keyup)="onSearch(input.value)" type="text" placeholder="Search users...">
+          </mat-form-field>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <template *ngIf="selectedUser.currentUser">
+    <ol class="breadcrumb">
+      <li><a (click)="go('home')">Home</a></li>
+      <li class="active">{{selectedUser.currentUser.login}}</li>
+    </ol>
+    <mat-tab-group>
+      <mat-tab label="Details">
+        <div class="view-profile">
+          <div class="media">
+            <div class="media-left">
+              <img width="200" height="200" class="media-object" [src]="selectedUser.avatar_url">
+            </div>
+            <div class="media-body">
+              <p></p>
+              <h4 class="media-heading"><b>Username: </b> {{selectedUser.login}}</h4>
+              <h4 class="media-heading"><b>Name: </b> {{selectedUser.currentUser.name}}</h4>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="Repos">
+        <h2><span *ngIf="loadingRepos">Repos loading...</span><span *ngIf="!loadingRepos">Repos</span></h2>
+        <template *ngIf="selectedUser.repos">
+          <mat-list>
+            <mat-list-item *ngFor="let repo of selectedUser.repos">
+              <mat-icon mat-list-icon>folder</mat-icon>
+              <h4 mat-line><a href="{{repo.html_url}}">{{repo.full_name}}</a></h4>
+              <p mat-line><b>Stargazers: </b> {{repo.stargazers_count}}</p>
+              <p mat-line><b>Date Created: </b> {{repo.created_at | date}} </p>
+            </mat-list-item>
+          </mat-list>
+        </template>
+      </mat-tab>
+      <mat-tab label="Starred Repos">
+        <h2><span *ngIf="loadingRepos">Repos loading...</span><span *ngIf="!loadingRepos">Starred Repos</span></h2>
+        <template *ngIf="selectedUser.repos">
+          <mat-list>
+            <div *ngFor="let repo of selectedUser.repos">
+              <mat-list-item *ngIf="repo.stargazers_count > 0">
+                <mat-icon mat-list-icon>star</mat-icon>
+                <h4 mat-line><a href="{{repo.html_url}}">{{repo.full_name}}</a></h4>
+                <p mat-line><b>Stargazers: </b> {{repo.stargazers_count}}</p>
+                <p mat-line><b>Date Created: </b> {{repo.created_at | date}} </p>
+              </mat-list-item>
+            </div>
+          </mat-list>
+        </template>
+      </mat-tab>
+    </mat-tab-group>
+  </template>
+  <!-- Example row of columns -->
+  <div class="row">
+    <template *ngIf="!selectedUser.id">
+      <div *ngFor="let user of users" class="col-xs-6 col-md-2">
+        <mat-card class="card-example">
+          <mat-card-header>
+            <mat-card-subtitle>{{user.login}}</mat-card-subtitle>
+          </mat-card-header>
+          <img mat-card-image [src]="user.avatar_url">
+          <button mat-raised-button color="accent" (click)="viewUser(user)" role="button">More info</button>
+        </mat-card>
+      </div>
+      <br>
+    </template>
+  </div>
+</div> <!-- /container -->

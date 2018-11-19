@@ -1,0 +1,17 @@
+/* You can add global styles to this file, and also import other style files */
+@import url( 'https://fonts.googleapis.com/css?family=Roboto:400,700|Material+Icons');
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+.mat-form-field{
+    width:90%;
+    margin-top: 2%;
+}
+.mat-card{
+border: 1px solid #ccc;
+margin-bottom: 10px;
+}
+.breadcrumb a{
+    cursor: pointer;
+}
+[hidden], template {
+    display: block;
+}
